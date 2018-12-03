@@ -13,15 +13,36 @@ const hasWhitespace = string => {
 }
 
 let histItem = function(name, ...args) {
-  let q = {
-    timestamp: new Date(),
+  let obj = {
+    timestamp: new Date().toUTCString(),
     name: name,
     args: [...args]
   }
-  return q
-}
+  return obj}
 
-let store = st({
+const handler = {
+    get(target, propKey, receiver) {
+      const origMethod = target[propKey];
+        if (typeof origMethod === 'function') {
+        return function (...args) {
+            const result = origMethod.apply(this, args);
+            target.addToHistory(propKey, ...args)
+            return result;
+        }
+    } else {
+      return origMethod
+    }
+  },
+    set(obj, prop, value) {
+      let orig = obj[prop]
+      obj.addToHistory(`Changing property "${prop}" from {${orig}} to {${value}}`)
+      obj[prop] = value
+      return
+    }
+};
+
+
+let preProxy = {
   // server: {
   /**
    * TODO LIST:
@@ -130,8 +151,7 @@ let store = st({
       }) 
       .catch(err => {
         store.addToHistory("login failure", err)
-        // handleError
-        // maybe UI thing?
+        store.header.emitHeader('Failed to login', true)
       }) 
     },
     loginOrRegister: "login",
@@ -178,17 +198,19 @@ let store = st({
   header: {
     message: null,
     error: null,
-  },
-  emitHeader: (message, error, time=10000) => {
-    store.addToHistory('emitHeader', ...args)
-    if (error) {
-      store.header.error = true
+    emitHeader: (message, error, time=10000) => {
+      store.addToHistory('emitHeader', ...args)
+      if (error) {
+        store.header.error = true
+      }
+      store.visUpdate('header', true)
+      setTimeout(() => {
+        store.visUpdate('header', false)
+      }, time)
     }
-    store.visUpdate('header', true)
-    setTimeout(() => {
-      store.visUpdate('header', false)
-    }, time)
-  }
-})
+  },
+}
+
+let store = st(new Proxy(preProxy, handler))
 
 export default store
