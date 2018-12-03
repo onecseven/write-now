@@ -25,19 +25,17 @@ const handler = {
       const origMethod = target[propKey];
         if (typeof origMethod === 'function') {
         return function (...args) {
-            const result = origMethod.apply(this, args);
             target.addToHistory(propKey, ...args)
-            return result;
+            return origMethod.apply(this, args);
         }
     } else {
-      return origMethod
+      return Reflect.get(target, propKey, receiver)
     }
   },
     set(obj, prop, value) {
       let orig = obj[prop]
       obj.addToHistory(`Changing property "${prop}" from {${orig}} to {${value}}`)
-      obj[prop] = value
-      return
+      return Reflect.set(obj, prop, value)
     }
 };
 
