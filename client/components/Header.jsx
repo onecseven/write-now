@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
 import {view} from 'react-easy-state'
+import store from './store'
+
 const Header = () => {
-  return (  );
+  if (!store.header.message){
+    return null
+  } else {
+  return (
+    <div style={{
+      "display": store.vis.header
+    }} 
+    className={store.header.error ? "error" : ""}
+    >
+      {store.header.message}
+    </div>
+    );
+  }
 }
- 
-export default Header;
+export default view(Header);

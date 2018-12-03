@@ -142,7 +142,53 @@ let store = st({
     let temp = histItem(func, ...args)
     store.history.push(temp)
   },
-  archive: {}
+  archive: {},
+  vis: {
+    header: "",
+    auth: "",
+    editor: "",
+    archive: "",
+  },
+  visUpdate: (component, bool) => {
+    store.addToHistory('visUpdate', ...args)
+    let show = ""
+    let hide = "none"
+    let prop = bool ? show : hide
+    switch (component) {
+      case "header":
+        store.vis.header = prop
+        if (!bool) {
+          store.header.message = null
+          store.header.error = null
+        }        
+        break;
+      case "auth":
+        store.vis.auth = prop
+        break;
+      case "editor":
+        store.vis.editor = prop
+        break;
+      case "archive":
+        store.vis.editor = prop
+        break;
+      default:
+        break;
+    }
+  },
+  header: {
+    message: null,
+    error: null,
+  },
+  emitHeader: (message, error, time=10000) => {
+    store.addToHistory('emitHeader', ...args)
+    if (error) {
+      store.header.error = true
+    }
+    store.visUpdate('header', true)
+    setTimeout(() => {
+      store.visUpdate('header', false)
+    }, time)
+  }
 })
 
 export default store
