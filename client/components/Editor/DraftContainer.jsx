@@ -2,6 +2,7 @@ import React from "react"
 import { Editor, EditorState, convertToRaw, ContentState } from "draft-js"
 import {view} from 'react-easy-state'
 import store from "./../store"
+import Success from "./Success"
 
 const getWordCount = editorState => {
   const plainText = editorState.getCurrentContent().getPlainText("")
@@ -41,8 +42,12 @@ class DraftContainer extends React.Component {
   render() {
     return (
       <div id="content">
-      <span className={store.editor.userFailed ? 'failure' : '' }>{`${store.editor.wordCount}/${store.editor.wordLimit}`}</span>
+      <span className={store.editor.userFailed ? 'error' : '' }>{`${store.editor.wordCount}/${store.editor.wordLimit}`}</span>
         <div className="editor">
+        {store.editor.userSuccess ?
+        (<Success document={this.state.editorState.getCurrentContent().getPlainText("")} />)
+        :
+        null}
           <Editor
             readOnly={store.editor.userFailed}
             editorState={this.state.editorState}

@@ -2,9 +2,9 @@ import React from "react"
 import store from "./../store"
 import { view } from "react-easy-state"
 
-let email, password
 
 const Login = () => {
+  let email, password
   return (
     <form onSubmit={(e) => {
       e.preventDefault()
@@ -37,7 +37,7 @@ const Login = () => {
         Sign in
       </button>
       <button
-        // onClick={() => store.auth.toggleLoginOrRegister()}
+        onClick={() => store.auth.toggleLoginOrRegister()}
       >
         Register
       </button>

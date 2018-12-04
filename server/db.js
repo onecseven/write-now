@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   calendar: [{ date: String, document: String }],
   joined_on: String
 })
-/**
+/**gin
  * @constructor \{{{Model}}\} {{User}}
  * @param {string} name
  * @param {string} password
@@ -96,6 +96,7 @@ const logIn = (email, password, cb) => {
  * @param {calendar} content  
  * @param {*} cb 
  */
+
 const calendarUpdate = (_id, content, cb) => {
   let obj = {
     date: new Date().toDateString(),

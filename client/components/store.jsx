@@ -1,5 +1,5 @@
 import { store as st } from "react-easy-state"
-import * as axios from 'axios'
+import * as axios from "axios"
 /**
  * type history
  * tuple: [a, b]
@@ -18,29 +18,39 @@ let histItem = function(name, ...args) {
     name: name,
     args: [...args]
   }
-  return obj}
+  return obj
+}
 
-const handler = {
-    get(target, propKey, receiver) {
-      const origMethod = target[propKey];
-        if (typeof origMethod === 'function') {
-        return function (...args) {
-            target.addToHistory(propKey, ...args)
-            return origMethod.apply(this, args);
-        }
-    } else {
-      return Reflect.get(target, propKey, receiver)
-    }
-  },
-    set(obj, prop, value) {
-      let orig = obj[prop]
-      obj.addToHistory(`Changing property "${prop}" from {${orig}} to {${value}}`)
-      return Reflect.set(obj, prop, value)
-    }
-};
+// const handler = {
+//   get: function(target, propKey, receiver) {
+//     const origMethod = target[propKey]
+//     if (typeof origMethod === "function" && propKey !== 'addToHistory') {
+//       return function(...args) {
+//         target.addToHistory(propKey, ...args)
+//         return Reflect.get(target, propKey, receiver)
+//       }
+//     } else {
+//       return Reflect.get(target, propKey, receiver)
+//     }
+//   },
+//   set: function(obj, prop, value) {
+//     let orig = obj[prop]
+//     obj.addToHistory(
+//       `Changing property "${String(prop)}" from {${String(orig)}} to {${String(
+//         value
+//       )}}`
+//     )
+//     return Reflect.set(obj, prop, value)
+//   }
+// }
 
-
-let preProxy = {
+let store = {
+  history: [],
+  addToHistory: (func, ...args) => {
+    let temp = histItem(func, ...args)
+    store.history.push(temp)
+  }
+}
   // server: {
   /**
    * TODO LIST:
@@ -60,7 +70,7 @@ let preProxy = {
    *
    */
   // },
-  clock: {
+store.clock = {
     hasStarted: false,
     wordTimer: 15,
     start() {
@@ -73,20 +83,21 @@ let preProxy = {
         }
       }, 500)
     },
-    stop(success=null) {
+    stop(success = null) {
       store.addToHistory("clock.stop")
       store.clock.wordInterval = clearInterval(store.clock.wordInterval)
       if (!success) {
         store.editor.userFailed = true
+        store.header.emitHeader('clock stopped')
       }
     },
     addToWordTimer() {
       store.addToHistory("addToWordTimer")
       store.clock.wordTimer = 15
     }
-  },
-  history: [],
-  editor: {
+  }
+store.history = []
+store.editor = {
     success: () => {
       store.addToHistory("user success", null)
       store.clock.stop(true)
@@ -129,9 +140,10 @@ let preProxy = {
     title: "Title",
     wordLimit: 1000, //default
     wordCount: 0,
-    userFailed: false
-  },
-  auth: {
+    userFailed: false,
+    userSuccess: false
+  }
+store.auth = {
     toggleLoginRegister: () => {
       store.addToHistory("toggleLoginRegister", store.auth.loginOrRegister)
       store.auth.loginOrRegister = "register"
@@ -139,36 +151,45 @@ let preProxy = {
     },
     login: (email, password) => {
       store.addToHistory("login", email)
-      axios.post('/login', {email, password})
-      .then(({status, _id}) => {
-        if (status === 200) {
-        store.addToHistory("login sucesss", _id)
-        store.auth._id = _id
-        store.auth.isLoggedIn = true
-        }
-      }) 
-      .catch(err => {
-        store.addToHistory("login failure", err)
-        store.header.emitHeader('Failed to login', true)
-      }) 
+      axios
+        .post("/login", { email, password })
+        .then(({ status, _id }) => {
+          if (status === 200) {
+            store.addToHistory("login sucesss", _id)
+            store.auth._id = _id
+            store.auth.isLoggedIn = true
+          }
+        })
+        .catch(err => {
+          store.addToHistory("login failure", err)
+          store.header.emitHeader("Failed to login", true)
+        })
+    },
+    saveSuccess: (document) => {
+      store.addToHistory("saveSuccess", document)
+      axios.post(
+        '/calendarUpdate',
+        {content: {
+          document: document
+        },
+      _id: store.auth._id}
+      ).store
+      .then(res => console.log('success'))
+      .catch(err => store.header.emitHeader("problem saving", true))
     },
     loginOrRegister: "login",
     _id: null,
     isLoggedIn: false
-  },
-  addToHistory: (func, ...args) => {
-    let temp = histItem(func, ...args)
-    store.history.push(temp)
-  },
-  archive: {},
-  vis: {
+  }
+store.archive = {}
+store.vis = {
     header: "",
     auth: "",
     editor: "",
-    archive: "",
-  },
-  visUpdate: (component, bool) => {
-    store.addToHistory('visUpdate', ...args)
+    archive: ""
+  }
+store.visUpdate = (component, bool) => {
+    store.addToHistory("visUpdate", [component, bool])
     let show = ""
     let hide = "none"
     let prop = bool ? show : hide
@@ -178,37 +199,36 @@ let preProxy = {
         if (!bool) {
           store.header.message = null
           store.header.error = null
-        }        
-        break;
+        }
+        break
       case "auth":
         store.vis.auth = prop
-        break;
+        break
       case "editor":
         store.vis.editor = prop
-        break;
+        break
       case "archive":
         store.vis.editor = prop
-        break;
+        break
       default:
-        break;
+        break
     }
-  },
-  header: {
+  }
+store.header = {
     message: null,
     error: null,
-    emitHeader: (message, error, time=10000) => {
-      store.addToHistory('emitHeader', ...args)
+    emitHeader: (message, error=null, time = 5000) => {
+      store.addToHistory("emitHeader", [{message, error, time}])
       if (error) {
         store.header.error = true
       }
-      store.visUpdate('header', true)
+      store.visUpdate("header", true)
+      store.header.message = message
       setTimeout(() => {
-        store.visUpdate('header', false)
+        store.visUpdate("header", false)
       }, time)
     }
-  },
-}
-
-let store = st(new Proxy(preProxy, handler))
+  }
+store = st(store)
 
 export default store
