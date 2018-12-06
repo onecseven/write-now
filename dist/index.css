@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Space+Mono);
 body {
   font: 40px "Space Mono", monospace;
-  text-align: center;
+  margin-left: 20px
   color: #2c3e50;
   margin: 0 10px;
 }
@@ -20,6 +20,7 @@ small {
 }
 
 .editor {
+  text-align: center;
   margin: 100px auto;
   width: 85%;
   height: 800px;
@@ -43,6 +44,19 @@ button:active {
   color: #0366d6;
 }
 
+.navbar{
+  text-align: left;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0px 10px 10px 0px;
+  display: inline;
+}
+
+
 .header {
   display: block;
   list-style-type: disc;
@@ -53,4 +67,8 @@ button:active {
   padding-inline-start: 40px;
   border: 1px solid #e7e7e7;
   background-color: #f3f3f3;
+}
+
+.error {
+  background-color: red;
 }

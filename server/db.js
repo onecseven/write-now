@@ -5,9 +5,7 @@ const bcrypt = require("bcrypt")
 // mongoose.connect(
 //   `mongodb://${en.mongo_user}:${en.mongo_pw}@ds125831.mlab.com:25831/write-now`
 // )
-mongoose.connect(
-  `mongodb://localhost/users`
-)
+mongoose.connect(`mongodb://localhost/users`)
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "connection error:"))
 db.once("open", function() {
@@ -18,10 +16,9 @@ db.once("open", function() {
 const userSchema = new mongoose.Schema({
   name: String,
   password: String,
-  /**
-   * @type {Array} holds a tuple of [date, string]
-   */
-  calendar: [{ date: String, document: String }],
+  calendar: [
+    { date: String, document: String, title: String }
+  ],
   joined_on: String
 })
 /**gin
@@ -31,9 +28,8 @@ const userSchema = new mongoose.Schema({
  */
 const User = mongoose.model("User", userSchema)
 
-
- /**
-  * @func {{addUser}}{{DB}} adds user to db
+/**
+ * @func {{addUser}}{{DB}} adds user to db
  * @param {string} email
  * @param {string} password
  * @param {function} cb
@@ -74,7 +70,7 @@ const logIn = (email, password, cb) => {
     if (err || !result) cb(new Error("user not found"))
     else {
       let hash = result.password
-      let { _id } = result  
+      let { _id } = result
       bcrypt.compare(password, hash, (err, result) => {
         if (err) cb(err)
         else {
@@ -89,15 +85,17 @@ const logIn = (email, password, cb) => {
 
 /**
  * @func {{calendarUpdate}}{{}}
- * @param {string} _id 
- * @param {calendar} content  
- * @param {*} cb 
+ * @param {string} _id
+ * @param {calendar} content
+ * @param {*} cb
  */
 
-const calendarUpdate = (_id, doc, cb) => {
+const calendarUpdate = (userDoc, cb) => {
+  let {title, doc, _id } = userDoc
   let obj = {
     date: new Date().toDateString(),
-    document: doc
+    document: doc,
+    title
   }
   User.findByIdAndUpdate(
     _id,
@@ -114,18 +112,17 @@ const calendarUpdate = (_id, doc, cb) => {
 
 /**
  * gets all the calendar documents
- * @param {string} _id 
- * @param {function} cb 
+ * @param {string} _id
+ * @param {function} cb
  */
-const getUserById= (_id,cb) => {
+const getUserById = (_id, cb) => {
   User.findById(_id, (err, user) => {
-      if (err || !user) cb(new Error("error db"))
-      else {
-        console.log(user)
-        cb(null, user)
-      }
+    if (err || !user) cb(new Error("error db"))
+    else {
+      console.log(user)
+      cb(null, user)
     }
-  )
+  })
 }
 /**
  * @func {{allUsers}}{{DB}}

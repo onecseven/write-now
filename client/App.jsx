@@ -4,6 +4,8 @@ import Header from "./components/Header"
 import Auth from "./components/Auth"
 import { view } from 'react-easy-state'
 import store from './components/store'
+import Navbar from "./components/Navbar";
+import Calendar from "./components/Archive/Calendar";
 class App extends Component {
   constructor() {
     super()
@@ -12,7 +14,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Navbar/>
         <Header/>
+        <Calendar/>
         <Auth />
         <Editor/>
       </div>

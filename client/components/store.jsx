@@ -56,9 +56,9 @@ let store = {
    * TODO LIST:
    * 0. login
    * 1. send method
-   *   .1a add send content to server button []
-   *   .1b send calendar content to server function []
-   *   .1c handle calendar content on server & db []
+   *   .1a add send content to server button [x]
+   *   .1b send calendar content to server function [x]
+   *   .1c handle calendar content on server & db [x]
    * 2. get method
    *   2a. get calendar
    *      * only when logged in
@@ -127,7 +127,7 @@ store.editor = {
       return
     },
     setEditorConf: ({ words }) => {
-      store.addToHistory("displayUserConf", { words })
+      store.addToHistory("setUserConf", { words })
       store.editor.wordLimit = words
       store.editor._toggleView()
     },
@@ -143,7 +143,8 @@ store.editor = {
       axios.post(
         '/calendar',
         {
-          doc
+          document: doc,
+          title: store.editor.title
         }
       ) 
       .then(res => store.header.emitHeader("saved!"))
@@ -197,6 +198,9 @@ store.vis = {
     archive: ""
   }
 store.visUpdate = (component, bool) => {
+    if (Array.isArray(component)) {
+      return component.forEach(arg => store.visUpdate(arg, bool))
+    }
     store.addToHistory("visUpdate", [component, bool])
     let show = ""
     let hide = "none"

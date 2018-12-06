@@ -9,7 +9,7 @@ const Success = ({ doc }) => {
   }
   return (
     <div>
-      <button onClick={handler}>Save</button>
+      <button onClick={handler}>Save💾</button>
     </div>
   )
 }
