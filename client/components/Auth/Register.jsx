@@ -2,22 +2,46 @@ import React from "react"
 import {view} from "react-easy-state"
 import  store from "./../store"
 
+
+
 const Register = () => {
+  let email, password
   return (
-    <form className={"pure-form"}>
+    <form onSubmit={(e) => {
+      e.preventDefault()
+    }}>
       <legend>Register</legend>
-      <label for="email">Email</label>
-      <input id="emailAuth" type="email" placeholder="Email" />
-      <label for="password">Password</label>
-      <input id="password" type="password" placeholder="Password" />
-      <label for="password">Retype Password</label>
-      <input id="password2" type="password" placeholder="Password" />
-      <button type="submit" class="pure-button pure-button-primary">
+      <label>Email</label>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={e => {
+          email = e.target.value
+        }}
+      />
+      <label>Password</label>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={e => {
+          password = e.target.value
+        }}
+      />
+      <button
+        onClick={e => {
+          e.preventDefault()
+          store.auth.login(email, password)
+        }}
+      >
         Register
       </button>
-      <button class="pure-button pure-button-primary" onClick={() => store.auth.toggleLoginRegister()}>
-        Log in
-        </button>
+      <button
+        onClick={() => store.auth.toggleLoginOrRegister()}
+      >
+        Register
+      </button>
     </form>
   )
 }

@@ -73,7 +73,9 @@ class Month extends Component {
     ]
     let thisMonth = this.calendar[year][this.state.currentDisplayMonth]
     return (
-      <div>
+      <div style={{
+        "display": store.vis.archive
+      }}  >
         <h1>{months[monthIndex]}</h1>
         <div className="container">
           <br />

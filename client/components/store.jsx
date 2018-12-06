@@ -186,6 +186,14 @@ store.auth = {
           store.header.emitHeader("Failed to login", true)
         })
     },
+    register: (email, password) => {
+      axios.post('/user', {email, password})
+      .then(e => {
+        store.header.emitHeader("Registered!")
+        store.login(email,password)
+      })
+      .catch(err => store.header.emitHeader("Error registering!", true))
+    },
     loginOrRegister: "login",
     _id: null,
     isLoggedIn: false
@@ -195,7 +203,7 @@ store.vis = {
     header: "",
     auth: "",
     editor: "none",
-    archive: ""
+    archive: "none"
   }
 store.visUpdate = (component, bool) => {
     if (Array.isArray(component)) {
@@ -233,6 +241,10 @@ store.header = {
       store.addToHistory("emitHeader", [{message, error, time}])
       if (error) {
         store.header.error = true
+      }
+      if (store.vis.header === ""){
+        store.header.message = message
+        return
       }
       store.visUpdate("header", true)
       store.header.message = message
