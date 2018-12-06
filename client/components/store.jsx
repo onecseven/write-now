@@ -51,25 +51,6 @@ let store = {
     store.history.push(temp)
   }
 }
-  // server: {
-  /**
-   * TODO LIST:
-   * 0. login
-   * 1. send method
-   *   .1a add send content to server button [x]
-   *   .1b send calendar content to server function [x]
-   *   .1c handle calendar content on server & db [x]
-   * 2. get method
-   *   2a. get calendar
-   *      * only when logged in
-   *   2b. populate store.archive
-   * 3. once a day methods
-   *   ?? ?? ??
-   *   ?? ?? ??
-   *   ?? ?? ??
-   *
-   */
-  // },
 store.clock = {
     hasStarted: false,
     wordTimer: 15,
