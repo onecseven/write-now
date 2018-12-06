@@ -140,10 +140,11 @@ store.editor = {
     },
     saveSuccess: (doc) => {
       store.addToHistory("saveSuccess", doc)
+  
       axios.post(
         '/calendar',
         {
-          document: doc,
+          doc: doc,
           title: store.editor.title
         }
       ) 
@@ -198,7 +199,23 @@ store.auth = {
     _id: null,
     isLoggedIn: false
   }
-store.archive = {}
+store.archive = {
+  populate: () => {
+    if (!store.auth.isLoggedIn) return
+    store.addToHistory("archive populate")
+    axios.get('/calendar')
+    .then(({data}) => {
+      store.archive.time = 30
+      data.forEach(item => {
+        item.view = false
+        store.archive.data.push(item)})
+    })
+    .catch(err => {
+      console.error(err)
+      store.header.emitHeader("Error recovering your archive.")})
+  },
+  data: [],
+}
 store.vis = {
     header: "",
     auth: "",
@@ -206,10 +223,6 @@ store.vis = {
     archive: "none"
   }
 store.visUpdate = (component, bool) => {
-    if (Array.isArray(component)) {
-      return component.forEach(arg => store.visUpdate(arg, bool))
-    }
-    store.addToHistory("visUpdate", [component, bool])
     let show = ""
     let hide = "none"
     let prop = bool ? show : hide
@@ -228,12 +241,18 @@ store.visUpdate = (component, bool) => {
         store.vis.editor = prop
         break
       case "archive":
-        store.vis.editor = prop
+        store.vis.archive = prop
+        store.archive.populate()
+        if (bool) {
+          store.vis.editor = hide
+        }
         break
       default:
         break
     }
   }
+  
+
 store.header = {
     message: null,
     error: null,

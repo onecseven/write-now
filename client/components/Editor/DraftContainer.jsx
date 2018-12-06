@@ -29,7 +29,6 @@ class DraftContainer extends React.Component {
         let currentWordCount = getWordCount(this.state.editorState)
         store.editor.updateWordCount(currentWordCount)
         if (currentWordCount > this.state.wordCount) {
-          console.log(currentWordCount, this.state.wordCount)
           store.clock.addToWordTimer()
         }
         this.setState({wordCount: currentWordCount})

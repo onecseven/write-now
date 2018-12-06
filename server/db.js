@@ -12,6 +12,27 @@ db.once("open", function() {
   console.log("Connected to DB")
 })
 
+const dateStr = (date) => {
+  let months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC"
+  ]
+  let day = date.getDate()
+  let monthIndex = date.getMonth() 
+  let year = date.getFullYear()
+  return `${year}${months[monthIndex]}${day}`
+}
+
 //setting up
 const userSchema = new mongoose.Schema({
   name: String,
@@ -93,7 +114,7 @@ const logIn = (email, password, cb) => {
 const calendarUpdate = (userDoc, cb) => {
   let {title, doc, _id } = userDoc
   let obj = {
-    date: new Date().toDateString(),
+    date: dateStr(new Date()),
     document: doc,
     title
   }

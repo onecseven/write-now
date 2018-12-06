@@ -124,7 +124,7 @@ app.post("/calendar", (req, res) => {
     {
       title,
       _id: req.user._id,
-      document: doc
+      doc
     },
     (err, result) => {
       if (err || !result) console.error("error updating calendar", err)

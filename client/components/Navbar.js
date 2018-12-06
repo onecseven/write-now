@@ -9,7 +9,7 @@ const Navbar = () => {
       {store.auth.isLoggedIn ? (
         <li
           onClick={e => {
-            store.visUpdate(["auth", "editor", "header"], false)
+            store.visUpdate("editor", false)
             store.visUpdate("archive", true)
           }}
         >
