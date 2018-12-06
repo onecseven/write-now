@@ -10,7 +10,7 @@ const Header = () => {
     <div style={{
       "display": store.vis.header
     }} 
-    className={store.header.error ? "error" : ""}
+    className={"header " + (store.header.error ? "error" : "")}
     >
       {store.header.message}
     </div>

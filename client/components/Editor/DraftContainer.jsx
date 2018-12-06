@@ -45,7 +45,7 @@ class DraftContainer extends React.Component {
       <span className={store.editor.userFailed ? 'error' : '' }>{`${store.editor.wordCount}/${store.editor.wordLimit}`}</span>
         <div className="editor">
         {store.editor.userSuccess ?
-        (<Success document={this.state.editorState.getCurrentContent().getPlainText("")} />)
+        (<Success doc={this.state.editorState.getCurrentContent().getPlainText("")} />)
         :
         null}
           <Editor

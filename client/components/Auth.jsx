@@ -10,7 +10,9 @@ class Auth extends Component {
   }
   render() { 
     return (
-      <div className='auth'>
+      <div className='auth' style={{
+        "display": store.vis.auth
+      }} >
       {store.auth.loginOrRegister === 'login' ? 
       <Login /> : 
       <Register />}

@@ -11,7 +11,9 @@ class Editor extends Component {
   }
   render() { 
     return (
-      <div>
+      <div style={{
+        "display": store.vis.editor
+      }} >
         <UserConf/>
         <div style={{display: store.editor.editorDisplay}}>
         <Title/>

@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 import { view } from "react-easy-state"
 import store from "./../store"
-const Success = ({ document }) => {
+
+
+const Success = ({ doc }) => {
+  let handler = () => {
+    store.editor.saveSuccess(doc)
+  }
   return (
     <div>
-      <button onClick={(e) => {
-        store.server
-      }}>Save</button>
+      <button onClick={handler}>Save</button>
     </div>
   )
 }

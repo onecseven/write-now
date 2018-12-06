@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Space+Mono);
 body {
-  font: 40px 'Space Mono', monospace;
+  font: 40px "Space Mono", monospace;
   text-align: center;
   color: #2c3e50;
   margin: 0 10px;
@@ -43,3 +43,14 @@ button:active {
   color: #0366d6;
 }
 
+.header {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+  border: 1px solid #e7e7e7;
+  background-color: #f3f3f3;
+}

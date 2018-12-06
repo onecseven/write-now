@@ -100,7 +100,10 @@ store.history = []
 store.editor = {
     success: () => {
       store.addToHistory("user success", null)
+      store.editor.userSuccess = true
+      store.header.emitHeader("You did it!")
       store.clock.stop(true)
+      return
     },
     changeTitle: title => {
       store.addToHistory("changeTitle", title)
@@ -118,6 +121,9 @@ store.editor = {
       if (store.clock.hasStarted === false) {
         store.clock.start()
       }
+      if (int >= store.editor.wordLimit && !store.editor.userSuccess) {
+        store.editor.success()
+      }
       return
     },
     setEditorConf: ({ words }) => {
@@ -132,7 +138,17 @@ store.editor = {
       store.editor.editorDisplay =
         store.editor.editorDisplay === "none" ? "" : "none"
     },
-
+    saveSuccess: (doc) => {
+      store.addToHistory("saveSuccess", doc)
+      axios.post(
+        '/calendar',
+        {
+          doc
+        }
+      ) 
+      .then(res => store.header.emitHeader("saved!"))
+      .catch(err => store.header.emitHeader("problem saving", true))
+    },
     /**@typedef {String} userConfDisplay can be "" or "none" */
     userConfDisplay: "",
     /** @type userConfDisplay */
@@ -157,6 +173,9 @@ store.auth = {
         .then(({ status, _id }) => {
           if (status === 200) {
             store.addToHistory("login sucesss", _id)
+            store.header.emitHeader("Login Success!")
+            store.visUpdate("auth", false)
+            store.visUpdate("editor", true)
             store.auth._id = _id
             store.auth.isLoggedIn = true
           }
@@ -166,18 +185,6 @@ store.auth = {
           store.header.emitHeader("Failed to login", true)
         })
     },
-    saveSuccess: (document) => {
-      store.addToHistory("saveSuccess", document)
-      axios.post(
-        '/calendarUpdate',
-        {content: {
-          document: document
-        },
-      _id: store.auth._id}
-      ).store
-      .then(res => console.log('success'))
-      .catch(err => store.header.emitHeader("problem saving", true))
-    },
     loginOrRegister: "login",
     _id: null,
     isLoggedIn: false
@@ -186,7 +193,7 @@ store.archive = {}
 store.vis = {
     header: "",
     auth: "",
-    editor: "",
+    editor: "none",
     archive: ""
   }
 store.visUpdate = (component, bool) => {
