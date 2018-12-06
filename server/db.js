@@ -74,7 +74,7 @@ const logIn = (email, password, cb) => {
     if (err || !result) cb(new Error("user not found"))
     else {
       let hash = result.password
-      let { _id } = result
+      let { _id } = result  
       bcrypt.compare(password, hash, (err, result) => {
         if (err) cb(err)
         else {
@@ -86,21 +86,18 @@ const logIn = (email, password, cb) => {
     }
   })
 }
-/**@typedef {Object} calendar
- * @property {String} date 
- * @property {String} document
- */
+
 /**
- * 
+ * @func {{calendarUpdate}}{{}}
  * @param {string} _id 
  * @param {calendar} content  
  * @param {*} cb 
  */
 
-const calendarUpdate = (_id, content, cb) => {
+const calendarUpdate = (_id, doc, cb) => {
   let obj = {
     date: new Date().toDateString(),
-    document: content["document"]
+    document: doc
   }
   User.findByIdAndUpdate(
     _id,
@@ -121,10 +118,11 @@ const calendarUpdate = (_id, content, cb) => {
  * @param {function} cb 
  */
 const getUserById= (_id,cb) => {
-  User.findById(_id, (err, res) => {
-      if (err || !res) cb(err)
+  User.findById(_id, (err, user) => {
+      if (err || !user) cb(new Error("error db"))
       else {
-        cb(null, res)
+        console.log(user)
+        cb(null, user)
       }
     }
   )

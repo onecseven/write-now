@@ -132,6 +132,7 @@ store.editor = {
       store.editor.editorDisplay =
         store.editor.editorDisplay === "none" ? "" : "none"
     },
+
     /**@typedef {String} userConfDisplay can be "" or "none" */
     userConfDisplay: "",
     /** @type userConfDisplay */
