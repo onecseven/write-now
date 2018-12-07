@@ -7,12 +7,19 @@ import  store from "./../store"
 const Register = () => {
   let email, password
   return (
-    <form onSubmit={(e) => {
+    <form
+    className={"container with-title"}
+
+     onSubmit={(e) => {
       e.preventDefault()
     }}>
-      <legend>Register</legend>
+      <legend
+          className={"title"}
+
+      >Register</legend>
       <label>Email</label>
       <input
+              className={"input"}
         type="email"
         placeholder="Email"
         value={email}
@@ -23,6 +30,7 @@ const Register = () => {
       <label>Password</label>
       <input
         type="password"
+        className={"input"}
         placeholder="Password"
         value={password}
         onChange={e => {
@@ -30,6 +38,8 @@ const Register = () => {
         }}
       />
       <button
+          className={"btn is-primary"}
+
         onClick={e => {
           e.preventDefault()
           store.auth.register(email, password)

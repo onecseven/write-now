@@ -29,7 +29,7 @@ const Title = () => {
           onBlur={handleEvent}
         />
       ) : (
-        <h1 onClick={handleEvent}>{store.editor.title}</h1>
+        <h1 className={"title"} onClick={handleEvent}>{store.editor.title}</h1>
       )}
     </div>
   )

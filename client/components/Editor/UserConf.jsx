@@ -7,7 +7,7 @@ let words = null
 const UserConf = () => {
   return (
     <form
-      className={"pure-form"}
+      className={"form container"}
       style={{ display: store.editor.userConfDisplay }}
     >
       <legend>Set a minimum word count</legend>
@@ -16,6 +16,7 @@ const UserConf = () => {
       <input
         id="wordCount"
         type="number"
+        className={"input is-success"}
         placeholder="1000"
         value={words}
         onChange={e => {

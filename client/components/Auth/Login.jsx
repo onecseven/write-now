@@ -6,10 +6,10 @@ import { view } from "react-easy-state"
 const Login = () => {
   let email, password
   return (
-    <form onSubmit={(e) => {
+    <form className={"container with-title"}onSubmit={(e) => {
       e.preventDefault()
     }}>
-      <legend>Login</legend>
+      <legend className={"title"}>Login</legend>
       <label>Email</label>
       <input
         type="email"
@@ -29,6 +29,7 @@ const Login = () => {
         }}
       />
       <button
+      className={"btn"}
         onClick={e => {
           e.preventDefault()
           store.auth.login(email, password)
@@ -37,6 +38,8 @@ const Login = () => {
         Sign in
       </button>
       <button
+            className={"btn"}
+
         onClick={() => store.auth.toggleLoginRegister()}
       >
         Register

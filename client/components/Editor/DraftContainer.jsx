@@ -40,7 +40,7 @@ class DraftContainer extends React.Component {
   // }
   render() {
     return (
-      <div id="content">
+      <div id="container is-dark">
       <span className={store.editor.userFailed ? 'error' : '' }>{`${store.editor.wordCount}/${store.editor.wordLimit}`}</span>
         <div className="editor">
         {store.editor.userSuccess ?

@@ -9,7 +9,7 @@ const Success = ({ doc }) => {
   }
   return (
     <div>
-      <button onClick={handler}>Save💾</button>
+      <button className={"btn is-primary"}onClick={handler}>Save💾</button>
     </div>
   )
 }

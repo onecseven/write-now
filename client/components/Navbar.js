@@ -7,6 +7,7 @@ const Navbar = () => {
     <ul className="navbar">
       <li onClick={() => {
         store.visUpdate("header", false)
+        store.visUpdate("auth", false)
         store.visUpdate("archive", false)
         store.visUpdate("editor", true)
       }}>WRITE NOW 🔔</li>

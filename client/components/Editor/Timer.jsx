@@ -6,7 +6,7 @@ import store from './../store'
 
 const Timer = () => {
   return (
-    <div className="timer">
+    <div className="timer container">
     <div>{store.clock.wordTimer}</div>
   </div>
   );
