@@ -5,7 +5,11 @@ import store from "./store"
 const Navbar = () => {
   return (
     <ul className="navbar">
-      <li>WRITE NOW 🔔</li>
+      <li onClick={() => {
+        store.visUpdate("header", false)
+        store.visUpdate("archive", false)
+        store.visUpdate("editor", true)
+      }}>WRITE NOW 🔔</li>
       {store.auth.isLoggedIn ? (
         <li
           onClick={e => {

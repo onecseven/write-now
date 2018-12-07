@@ -37,7 +37,7 @@ const Login = () => {
         Sign in
       </button>
       <button
-        onClick={() => store.auth.toggleLoginOrRegister()}
+        onClick={() => store.auth.toggleLoginRegister()}
       >
         Register
       </button>

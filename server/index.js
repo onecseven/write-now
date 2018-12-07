@@ -67,7 +67,7 @@ app.post("/user", (req, res) => {
   const { email, password } = req.body
   addUser(email, password, (err, id) => {
     if (err) console.error(err)
-    res.send(id)
+    res.send(200)
   })
 })
 app.get("/user", (req, res) => {

@@ -32,13 +32,8 @@ const Register = () => {
       <button
         onClick={e => {
           e.preventDefault()
-          store.auth.login(email, password)
+          store.auth.register(email, password)
         }}
-      >
-        Register
-      </button>
-      <button
-        onClick={() => store.auth.toggleLoginOrRegister()}
       >
         Register
       </button>

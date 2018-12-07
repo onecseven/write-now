@@ -169,12 +169,15 @@ store.auth = {
         })
     },
     register: (email, password) => {
+      store.addToHistory("register", [email, password])
       axios.post('/user', {email, password})
       .then(e => {
         store.header.emitHeader("Registered!")
-        store.login(email,password)
+        store.auth.login(email,password)
       })
-      .catch(err => store.header.emitHeader("Error registering!", true))
+      .catch(err => {
+        console.error(err)
+        store.header.emitHeader("Error registering!", true)})
     },
     loginOrRegister: "login",
     _id: null,
