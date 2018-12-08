@@ -10,9 +10,12 @@ const Header = () => {
     <div style={{
       "display": store.vis.header
     }} 
-    className={"header " + (store.header.error ? "error" : "")}
+    className={"balloon " + (store.header.error ? "error" : "")}
     >
+    <h2 style={{textAlign: "center"}}>❗</h2>
+    <p>
       {store.header.message}
+      </p>
     </div>
     );
   }

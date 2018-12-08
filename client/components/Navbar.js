@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { view } from "react-easy-state"
 import store from "./store"
+import Header from "./Header"
 
 const Navbar = () => {
   return (
@@ -29,6 +30,9 @@ const Navbar = () => {
           LOGIN
         </li>
       )}
+      <li>
+      <Header/>
+      </li>
     </ul>
   )
 }

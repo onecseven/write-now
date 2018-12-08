@@ -6,22 +6,25 @@ import { view } from "react-easy-state"
 const Login = () => {
   let email, password
   return (
-    <form className={"container with-title"}onSubmit={(e) => {
+    <form className={"form container with-title"}onSubmit={(e) => {
       e.preventDefault()
     }}>
       <legend className={"title"}>Login</legend>
-      <label>Email</label>
+      <label for="email">Email</label>
       <input
         type="email"
+        id="email"
         placeholder="Email"
         value={email}
         onChange={e => {
           email = e.target.value
         }}
       />
-      <label>Password</label>
+      <br/>
+      <label for="password">Password</label>
       <input
         type="password"
+        id="password"
         placeholder="Password"
         value={password}
         onChange={e => {

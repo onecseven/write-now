@@ -2,17 +2,15 @@ import React, { Component } from "react"
 import { view } from "react-easy-state"
 import store from "./../store"
 
-let words = null
 
 const UserConf = () => {
+  let words
   return (
     <form
-      className={"form container"}
       style={{ display: store.editor.userConfDisplay }}
+      className={"form container"}
     >
       <legend>Set a minimum word count</legend>
-      <h1 style={{color: "red"}}>YOU WILL NOT BE ABLE TO SAVE BEFORE YOU HIT THAT NUMBER</h1>
-      <label>Word Count</label>
       <input
         id="wordCount"
         type="number"
@@ -23,19 +21,22 @@ const UserConf = () => {
           words = e.target.value
         }}
       />
+      <br/>
       <button
         type="submit"
         onClick={event => {
           event.preventDefault()
+          words = words || 500
           store.editor.setEditorConf({
             words
           })
         }}
-        class="pure-button"
+        className="btn is-primary"
       >
         Go
       </button>
       <br />
+        <h1 style={{color: "red"}}>YOU WILL NOT BE ABLE TO SAVE BEFORE YOU HIT THAT NUMBER</h1>
     </form>
   )
 }

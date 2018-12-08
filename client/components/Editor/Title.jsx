@@ -19,9 +19,7 @@ const handleEvent = e => {
 }
 
 const Title = () => {
-  return (
-    <div>
-      {store.editor.editing ? (
+  return store.editor.editing ? (
         <input
           type="text"
           onChange={handleEvent}
@@ -29,10 +27,10 @@ const Title = () => {
           onBlur={handleEvent}
         />
       ) : (
-        <h1 className={"title"} onClick={handleEvent}>{store.editor.title}</h1>
-      )}
-    </div>
-  )
+        <h1 className={"title"}
+        style={{cursor: 'pointer'	}}
+        onClick={handleEvent}>{store.editor.title}🖋️</h1>
+      )
 }
 
 export default view(Title)

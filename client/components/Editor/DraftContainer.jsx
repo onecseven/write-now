@@ -22,8 +22,8 @@ class DraftContainer extends React.Component {
       editorState: EditorState.createEmpty(),
       wordCount: 0
     }
+    this.setDomEditorRef = ref => (this.domEditor = ref)
     //somehow this gives us the dom element
-    //this.setDomEditorRef = ref => (this.domEditor = ref)
     this.onChange = editorState => {
       this.setState({editorState}, () => {
         let currentWordCount = getWordCount(this.state.editorState)
@@ -32,26 +32,23 @@ class DraftContainer extends React.Component {
           store.clock.addToWordTimer()
         }
         this.setState({wordCount: currentWordCount})
+        store.editor.document = editorState.getCurrentContent().getPlainText("")
       })
     }
   }
-  // componentDidMount() {
-  //   this.domEditor.focus()
-  // }
+  componentDidMount() {
+    this.domEditor.focus()
+  }
   render() {
     return (
-      <div id="container is-dark">
+      <div id="content" className="container">
       <span className={store.editor.userFailed ? 'error' : '' }>{`${store.editor.wordCount}/${store.editor.wordLimit}`}</span>
         <div className="editor">
-        {store.editor.userSuccess ?
-        (<Success doc={this.state.editorState.getCurrentContent().getPlainText("")} />)
-        :
-        null}
           <Editor
             readOnly={store.editor.userFailed}
             editorState={this.state.editorState}
             onChange={this.onChange}
-            // ref={this.setDomEditorRef}
+            ref={this.setDomEditorRef}
           />
         </div>
       </div>

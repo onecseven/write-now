@@ -8,7 +8,14 @@ const server = require("http").createServer(app)
 const db = require("./db.js")
 const passport = require("passport")
 const LocalStrategy = require("passport-local").Strategy
-const { addUser, allUsers, logIn, calendarUpdate, getUserById } = db
+const {
+  addUser,
+  allUsers,
+  logIn,
+  calendarUpdate,
+  getUserById,
+  deleteCalendarItem
+} = db
 
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
@@ -129,11 +136,26 @@ app.post("/calendar", (req, res) => {
     (err, result) => {
       if (err || !result) console.error("error updating calendar", err)
       else {
+        console.log(result)
         console.log("Update succesful")
         res.send(200)
       }
     }
   )
+})
+
+app.post("/delete", (req, res) => {
+  if (!req.isAuthenticated()) return res.sendStatus(403)
+  let { index } = req.body
+  deleteCalendarItem(req.user._id, index, (err, result) => {
+    if (err || !result) {
+      console.error("error updating calendar", err)
+      res.send(400)
+    } else {
+      console.log("delete")
+      res.send(200)
+    }
+  })
 })
 
 exports.app = app

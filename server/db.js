@@ -106,9 +106,8 @@ const logIn = (email, password, cb) => {
 
 /**
  * @func {{calendarUpdate}}{{}}
- * @param {string} _id
- * @param {calendar} content
- * @param {*} cb
+ * @param {Object} userDoc
+ * @param {Function} cb
  */
 
 const calendarUpdate = (userDoc, cb) => {
@@ -130,6 +129,22 @@ const calendarUpdate = (userDoc, cb) => {
     }
   )
 }
+
+const deleteCalendarItem = (_id, index, cb) => {
+  User.findById(
+    _id,
+    (err, res) => {
+      if (err) cb(err)
+      else {
+        
+        res.calendar = res.calendar.filter((v,i) => i !== index)
+        res.save()
+        cb(null, res)
+      }
+    }
+  )
+}
+
 
 /**
  * gets all the calendar documents
@@ -163,6 +178,7 @@ const allUsers = cb => {
 
 module.exports = {
   allUsers,
+  deleteCalendarItem,
   addUser,
   logIn,
   calendarUpdate,
