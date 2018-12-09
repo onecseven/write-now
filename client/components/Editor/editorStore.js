@@ -1,3 +1,5 @@
+import store from "./../store"
+
 export let editorStore = {
   /**@func retry resets the state */
   retry: () => {

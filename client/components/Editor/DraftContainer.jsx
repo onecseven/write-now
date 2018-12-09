@@ -1,6 +1,6 @@
 import React from "react"
 import { Editor, EditorState, convertToRaw, ContentState } from "draft-js"
-import {view} from 'react-easy-state'
+import { view } from "react-easy-state"
 import store from "./../store"
 import Success from "./Success"
 
@@ -14,7 +14,6 @@ const getWordCount = editorState => {
 
 // const plainTextArray = editorState.getCurrentContent().getPlainText("").match(/\S+/g)
 
-
 class DraftContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -25,27 +24,31 @@ class DraftContainer extends React.Component {
     this.setDomEditorRef = ref => (this.domEditor = ref)
     //somehow this gives us the dom element
     this.onChange = editorState => {
-      this.setState({editorState}, () => {
+      this.setState({ editorState }, () => {
         let currentWordCount = getWordCount(this.state.editorState)
         store.editor.updateWordCount(currentWordCount)
         if (currentWordCount > this.state.wordCount) {
           store.clock.addToWordTimer()
         }
-        this.setState({wordCount: currentWordCount})
+        this.setState({ wordCount: currentWordCount })
         store.editor.document = editorState.getCurrentContent().getPlainText("")
       })
     }
   }
   componentDidMount() {
     this.domEditor.focus()
+    if ((store.editor.userFailed === true)) {
+      this.setState({ editorState: EditorState.createEmpty() })
+    }
   }
   render() {
     return (
       <div id="content" className="container">
-      <span className={store.editor.userFailed ? 'error' : '' }>{`${store.editor.wordCount}/${store.editor.wordLimit}`}</span>
+        <span className={store.editor.userFailed ? "error" : ""}>{`${
+          store.editor.wordCount
+        }/${store.editor.wordLimit}`}</span>
         <div className="editor">
           <Editor
-            readOnly={store.editor.userFailed}
             editorState={this.state.editorState}
             onChange={this.onChange}
             ref={this.setDomEditorRef}

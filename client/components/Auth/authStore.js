@@ -1,4 +1,8 @@
-export default authStore = {
+import store from "./../store"
+import * as axios from "axios"
+
+
+let authStore = {
   /**@function toggleLoginRegister inner visibility switch for auth component */
   toggleLoginRegister: () => {
     store.addToHistory("toggleLoginRegister", store.auth.loginOrRegister)
@@ -49,3 +53,5 @@ export default authStore = {
   _id: null,
   isLoggedIn: false
 }
+
+export default authStore

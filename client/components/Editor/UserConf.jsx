@@ -26,7 +26,7 @@ const UserConf = () => {
         type="submit"
         onClick={event => {
           event.preventDefault()
-          words = words || 500
+          words = words || store.editor.wordCount || 1000
           store.editor.setEditorConf({
             words
           })

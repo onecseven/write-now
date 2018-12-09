@@ -1,8 +1,7 @@
 import { store as st } from "react-easy-state"
-import {archiveStore as archive} from "./Archive/archiveStore"
-import {authStore as auth} from "./Auth/authStore"
-import {editorStore as editor, clock} from "./Editor/editorStore"
-import * as axios from "axios"
+import archiveStore from "./Archive/archiveStore"
+import authStore from "./Auth/authStore"
+import {editorStore, clock} from "./Editor/editorStore"
 
 
 /**
@@ -49,18 +48,10 @@ let store = {
   }
 }
 
-store.archive = {
-  archive
-}
-store.clock = {
-  clock
-}
-store.editor = {
-  editor
-}
-store.auth = {
-  auth
-}
+store.archive = archiveStore
+store.clock = clock
+store.editor = editorStore
+store.auth = authStore
 
 store.vis = {
   /**
@@ -98,7 +89,7 @@ store.visUpdate = (component, bool) => {
       store.vis.archive = prop
       store.archive.populate()
       if (bool) {
-        store.vis.editor = hide
+        store.vis.editor = "none"
       }
       break
     default:
