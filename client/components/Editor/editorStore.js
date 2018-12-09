@@ -1,4 +1,20 @@
 export let editorStore = {
+  /**@func retry resets the state */
+  retry: () => {
+  store.addToHistory("retry")
+  store.editor.userConfDisplay = ""
+  store.editor.editorDisplay = "none"
+  store.editor.document = ""
+  store.editor.editing = false
+  store.editor.title = "Title"
+  store.editor.wordLimit = 1000 
+  store.editor.wordCount = 0
+  store.editor.userFailed = false
+  store.editor.userSuccess =  false
+  store.clock.hasStarted = false
+  store.clock.wordTimer = 15
+  },
+  /**@func success handles success, emits header, stops clock */
   success: () => {
     store.addToHistory("user success", null)
     store.editor.userSuccess = true
@@ -6,16 +22,19 @@ export let editorStore = {
     store.clock.stop(true)
     return
   },
-  changeTitle: title => {
+  /**@param {String} title */
+  changeTitle: title  => {
     store.addToHistory("changeTitle", title)
     store.editor.title = title
     return
   },
+  /**@func toggleEditing  internal title editing vis updater */
   toggleEditing: () => {
     store.addToHistory("toggleEditing", store.editor.editing)
     store.editor.editing = !store.editor.editing
     return
   },
+  /**@param {Number} int */
   updateWordCount: int => {
     store.addToHistory("UpdateWordCount", int)
     store.editor.wordCount = int
@@ -27,11 +46,13 @@ export let editorStore = {
     }
     return
   },
+  /**@param {{words: Number}} */
   setEditorConf: ({ words }) => {
     store.addToHistory("setUserConf", { words })
     store.editor.wordLimit = words
     store.editor._toggleView()
   },
+  /**@func _toggleView internal vis updated for userConf component */
   _toggleView: () => {
     store.addToHistory("_toggleView", store.editor.userConfDisplay)
     store.editor.userConfDisplay =
@@ -39,6 +60,7 @@ export let editorStore = {
     store.editor.editorDisplay =
       store.editor.editorDisplay === "none" ? "" : "none"
   },
+  /**@param {String} doc */
   saveSuccess: doc => {
     store.addToHistory("saveSuccess", doc)
 
@@ -50,9 +72,9 @@ export let editorStore = {
       .then(res => store.header.emitHeader("saved!"))
       .catch(err => store.header.emitHeader("problem saving", true))
   },
-  /**@typedef {String} userConfDisplay can be "" or "none" */
-  userConfDisplay: "",
-  editorDisplay:  /** @type {userConfDisplay} */  "none",
+  /**@typedef {String} cssShow can be "" or "none" */
+  userConfDisplay: /**@type {cssShow} */ "",
+  editorDisplay:  /** @type {cssShow} */  "none",
   document: /** @type {String} */ "",
   editing: /** @type {Boolean} title editing visibility */ false,
   title: /**@type {String} */"Title",
@@ -75,7 +97,8 @@ export let clock = {
       }
     }, 500)
   },
-  stop(success = null) {
+  /**@param {Boolean} success */
+  stop(success = false) {
     store.addToHistory("clock.stop")
     store.clock.wordInterval = clearInterval(store.clock.wordInterval)
     if (!success) {

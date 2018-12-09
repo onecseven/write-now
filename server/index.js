@@ -18,24 +18,13 @@ const {
 } = db
 
 passport.use(
-  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    console.log("Inside local strategy callback")
-    logIn(email, password, (err, user) => {
-      console.log(err)
-      if (err || !user) done(err)
-      else {
-        const { _id } = user
-        return done(null, _id)
-      }
-    })
-  })
+  new LocalStrategy({ usernameField: "email" }, logIn)
 )
 
 passport.serializeUser((user, done) => {
   console.log(
     "Inside serializeUser callback. User id is save to the session file store here"
   )
-  console.log("line 31", user)
   done(null, user)
 })
 
@@ -95,26 +84,30 @@ app.get("/user", (req, res) => {
 //   })
 // })
 
-app.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err || !user) {
-      return res.sendStatus(400)
-    }
-    console.log("Inside passport.authenticate() callback")
-    // console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-    // console.log(`req.user: ${JSON.stringify(req.user)}`)
-    req.login(user, err => {
-      if (err || !user) {
-        console.error(err)
-        return res.sendStatus(400)
-      }
-      console.log("Inside req.login() callback")
-      // console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-      // console.log(`req.user: ${JSON.stringify(req.user)}`)
-      return res.send(user)
-    })
-  })(req, res, next)
-})
+// app.post("/login", (req, res, next) => {
+//   passport.authenticate("local", (err, user, info) => {
+//     if (err || !user) {
+//       return res.sendStatus(400)
+//     }
+//     console.log("Inside passport.authenticate() callback")
+//     // console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+//     // console.log(`req.user: ${JSON.stringify(req.user)}`)
+//     req.login(user, err => {
+//       if (err || !user) {
+//         console.error(err)
+//         return res.sendStatus(400)
+//       }
+//       console.log("Inside req.login() callback")
+//       // console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+//       // console.log(`req.user: ${JSON.stringify(req.user)}`)
+//       return res.send(user)
+//     })
+//   })(req, res, next)
+// })
+
+app.post("/login", passport.authenticate('local'), (req, res) => {
+  res.send(200)
+  })
 
 app.get("/calendar", (req, res) => {
   if (req.isAuthenticated()) {

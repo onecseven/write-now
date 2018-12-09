@@ -1,6 +1,6 @@
 import { store as st } from "react-easy-state"
-import archiveStore as archive from "./Archive/archiveStore"
-import authStore as auth from "./Auth/authStore"
+import {archiveStore as archive} from "./Archive/archiveStore"
+import {authStore as auth} from "./Auth/authStore"
 import {editorStore as editor, clock} from "./Editor/editorStore"
 import * as axios from "axios"
 
@@ -107,9 +107,14 @@ store.visUpdate = (component, bool) => {
 }
 
 store.header = {
-  message: null,
-  error: null,
-  emitHeader: (message, error = null, time = 2000) => {
+  message: /**@type {String|null} */ null,
+  error: /**@type {String|null} */ null,
+  /**@function emitHeader
+   * @param {String} message
+   * @param {Boolean?} err whether the message is an error
+   * @param {Number} time how long the header should stay up (2 seconds by defaults)
+   */
+  emitHeader: (message, error = false, time = 2000) => {
     store.addToHistory("emitHeader", [{ message, error, time }])
     if (error) {
       store.header.error = true

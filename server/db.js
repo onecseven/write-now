@@ -80,22 +80,22 @@ const addUser = (email, password, cb) => {
   })
 }
 /**
- * logs in
+ * @function logIn 
  * @param {String} email
  * @param {String} password
  * @param {function} cb
  * @returns {void} the callback will receive User._id
  */
 const logIn = (email, password, cb) => {
-  User.findOne({ name: email }, (err, result) => {
-    if (err || !result) cb(new Error("user not found"))
+  User.findOne({ name: email }, (err, User) => {
+    if (err || !User) cb(new Error("User Not Found"))
     else {
-      let hash = result.password
-      let { _id } = result
-      bcrypt.compare(password, hash, (err, result) => {
-        if (err) cb(err)
+      let hash = User.password
+      let { _id } = User
+      bcrypt.compare(password, hash, (err, same) => {
+        if (err || !same) cb(new Error("Wrong Password"))
         else {
-          if (result) {
+          if (same) {
             cb(null, _id)
           }
         }

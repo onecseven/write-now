@@ -1,9 +1,14 @@
 export default authStore = {
+  /**@function toggleLoginRegister inner visibility switch for auth component */
   toggleLoginRegister: () => {
     store.addToHistory("toggleLoginRegister", store.auth.loginOrRegister)
     store.auth.loginOrRegister = "register"
     return
   },
+  /**@function login logs the user in
+   * @param {String} email
+   * @param {String} password
+   */
   login: (email, password) => {
     store.addToHistory("login", email)
     axios
@@ -23,6 +28,10 @@ export default authStore = {
         store.header.emitHeader("Failed to login", true)
       })
   },
+    /**@function register registers the user
+   * @param {String} email
+   * @param {String} password
+   */
   register: (email, password) => {
     store.addToHistory("register", [email, password])
     axios
