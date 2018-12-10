@@ -1,3 +1,5 @@
 node_modules
 config
 .old-git
+sessions
+dist/bundle.js

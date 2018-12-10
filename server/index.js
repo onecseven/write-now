@@ -43,6 +43,7 @@ app.use(
       console.log("Inside the session middleware")
       return uuid() // use UUIDs for session IDs
     },
+    store: new FileStore({secret: "keyboard cat"}),
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true
@@ -72,38 +73,6 @@ app.get("/user", (req, res) => {
     res.send(id)
   })
 })
-
-// app.post("/login", (req, res) => {
-//   const { email, password } = req.body
-//   logIn(email, password, (err, result) => {
-//     if (err) console.error(err)
-//     else {
-//       const { _id } = result
-//       res.send(_id)
-//     }
-//   })
-// })
-
-// app.post("/login", (req, res, next) => {
-//   passport.authenticate("local", (err, user, info) => {
-//     if (err || !user) {
-//       return res.sendStatus(400)
-//     }
-//     console.log("Inside passport.authenticate() callback")
-//     // console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-//     // console.log(`req.user: ${JSON.stringify(req.user)}`)
-//     req.login(user, err => {
-//       if (err || !user) {
-//         console.error(err)
-//         return res.sendStatus(400)
-//       }
-//       console.log("Inside req.login() callback")
-//       // console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-//       // console.log(`req.user: ${JSON.stringify(req.user)}`)
-//       return res.send(user)
-//     })
-//   })(req, res, next)
-// })
 
 app.post("/login", passport.authenticate('local'), (req, res) => {
   res.send(200)

@@ -1,18 +1,17 @@
 //@ts-nocheck
 const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
-// const en = require("./../config")
-// mongoose.connect(
-//   `mongodb://${en.mongo_user}:${en.mongo_pw}@ds125831.mlab.com:25831/write-now`
-// )
-mongoose.connect(`mongodb://localhost/users`)
+const en = require("./../config")
+mongoose.connect(
+  `mongodb://${en.mongo_user}:${en.mongo_pw}@ds125831.mlab.com:25831/write-now`
+)
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "connection error:"))
 db.once("open", function() {
   console.log("Connected to DB")
 })
 
-const dateStr = (date) => {
+const dateStr = date => {
   let months = [
     "JAN",
     "FEB",
@@ -28,7 +27,7 @@ const dateStr = (date) => {
     "DEC"
   ]
   let day = date.getDate()
-  let monthIndex = date.getMonth() 
+  let monthIndex = date.getMonth()
   let year = date.getFullYear()
   return `${year}${months[monthIndex]}${day}`
 }
@@ -37,9 +36,7 @@ const dateStr = (date) => {
 const userSchema = new mongoose.Schema({
   name: String,
   password: String,
-  calendar: [
-    { date: String, document: String, title: String }
-  ],
+  calendar: [{ date: String, document: String, title: String }],
   joined_on: String
 })
 /**gin
@@ -80,7 +77,7 @@ const addUser = (email, password, cb) => {
   })
 }
 /**
- * @function logIn 
+ * @function logIn
  * @param {String} email
  * @param {String} password
  * @param {function} cb
@@ -88,13 +85,17 @@ const addUser = (email, password, cb) => {
  */
 const logIn = (email, password, cb) => {
   User.findOne({ name: email }, (err, User) => {
-    if (err || !User) cb(new Error("User Not Found"))
-    else {
+    console.log("name?", email)
+    if (err || !User) {
+      cb(new Error("User Not Found"))
+    } else {
       let hash = User.password
       let { _id } = User
       bcrypt.compare(password, hash, (err, same) => {
-        if (err || !same) cb(new Error("Wrong Password"))
-        else {
+        if (err || !same) {
+          console.error(err)
+          cb(new Error("Wrong Password"))
+        } else {
           if (same) {
             cb(null, _id)
           }
@@ -111,7 +112,7 @@ const logIn = (email, password, cb) => {
  */
 
 const calendarUpdate = (userDoc, cb) => {
-  let {title, doc, _id } = userDoc
+  let { title, doc, _id } = userDoc
   let obj = {
     date: dateStr(new Date()),
     document: doc,
@@ -131,20 +132,15 @@ const calendarUpdate = (userDoc, cb) => {
 }
 
 const deleteCalendarItem = (_id, index, cb) => {
-  User.findById(
-    _id,
-    (err, res) => {
-      if (err) cb(err)
-      else {
-        
-        res.calendar = res.calendar.filter((v,i) => i !== index)
-        res.save()
-        cb(null, res)
-      }
+  User.findById(_id, (err, res) => {
+    if (err) cb(err)
+    else {
+      res.calendar = res.calendar.filter((v, i) => i !== index)
+      res.save()
+      cb(null, res)
     }
-  )
+  })
 }
-
 
 /**
  * gets all the calendar documents
