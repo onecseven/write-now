@@ -5,7 +5,6 @@ import Title from "./Editor/Title"
 import UserConf from "./Editor/UserConf"
 import Success from "./Editor/Success"
 import Failure from "./Editor/Failure"
-import Timer from "./Editor/Timer"
 import store from "./store"
 class Editor extends Component {
   constructor(props) {
@@ -20,14 +19,14 @@ class Editor extends Component {
       >
         <UserConf />
         <div style={{ display: store.editor.editorDisplay }}>
-          <div className={"container with-title is-rounded"}>
+          <div className={"container is-dark with-title is-rounded"}>
             <Title className="title upper" />
             {store.editor.userSuccess ? 
               (<Success />)
              : 
               (store.editor.userFailed ? 
                 (<Failure/>) : 
-                (<Timer className={"upper"}/>))
+                null)
             }
             <DraftContainer />
           </div>

@@ -28,7 +28,7 @@ let archiveStore = {
       .get("/calendar")
       .then(({ data }) => {
         store.addToHistory("archive populated", data)
-        data.forEach(item => {
+        data.reverse().forEach(item => {
           item.view = false
           store.archive.data.push(item)
         })

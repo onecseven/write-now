@@ -6,7 +6,7 @@ import { view } from "react-easy-state"
 const Login = () => {
   let email, password
   return (
-    <form className={"form container with-title"}onSubmit={(e) => {
+    <form className={"form container is-dark with-title"}onSubmit={(e) => {
       e.preventDefault()
     }}>
       <legend className={"title"}>Login</legend>

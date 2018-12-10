@@ -8,7 +8,7 @@ const Register = () => {
   let email, password
   return (
     <form
-    className={"form container with-title"}
+    className={"form container is-dark with-title"}
 
      onSubmit={(e) => {
       e.preventDefault()

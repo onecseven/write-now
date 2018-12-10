@@ -1,23 +1,24 @@
-import React, { Component } from 'react';
-import {view} from 'react-easy-state'
-import store from './store'
+import React, { Component } from "react"
+import { view } from "react-easy-state"
+import store from "./store"
 
 const Header = () => {
-  if (!store.header.message){
+  if (!store.header.message) {
     return null
   } else {
-  return (
-    <div style={{
-      "display": store.vis.header
-    }} 
-    className={"balloon " + (store.header.error ? "error" : "")}
-    >
-    <h2 style={{textAlign: "center"}}>❗</h2>
-    <p>
-      {store.header.message}
-      </p>
-    </div>
-    );
+    setTimeout(store.header.wipeHeader, 2000)
+    return (
+      <div
+        style={{
+          display: store.vis.header,
+          backgroundColor: "black"
+        }}
+        className={"balloon  unbig" + (store.header.error ? " error" : "")}
+      >
+        <img src="/icon.jpg" className="exclamation" />
+        <p style={{ display: "inline-block" }}>{store.header.message}</p>
+      </div>
+    )
   }
 }
-export default view(Header);
+export default view(Header)

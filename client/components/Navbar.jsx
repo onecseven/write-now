@@ -5,7 +5,7 @@ import Header from "./Header"
 
 const Navbar = () => {
   return (
-    <ul className="navbar">
+    <ul className="navbar container is-dark is-rounded">
       <li onClick={() => {
         store.visUpdate("header", false)
         store.visUpdate("auth", false)

@@ -1,9 +1,24 @@
+body {
+  background-color: black;
+}
+
+.App > * {
+  color: white;
+
+}
+
 .timer {
-  width: 250px;
-  height: 100px;
+  /* width: 250px; */
+  /* height: 100px; */
+  /* text-align: center; */
+  padding-top:15px;
   border: solid 2px;
   padding: 15px;
   border-radius: 10px;
+}
+
+.timer-running{
+  color: red !important;
 }
 
 .tag {
@@ -37,6 +52,7 @@
 }
 
 .navbar > li {
+  cursor: pointer;
   list-style-type: none;
   display: inline-block;
   margin: 0px 10px 10px 0px;
@@ -66,6 +82,22 @@
   display: inline-block;
 }
 
-.error > * {
+.unbig{
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 10px;
+}
+
+.error{
   background-color: red;
+}
+
+.exclamation {
+  width: 20px;
+  margin-right: 5px;
+  height: 20px;
+  display: inline-block;
+}
+
+.auth > * {
+  display: inline-block;
 }

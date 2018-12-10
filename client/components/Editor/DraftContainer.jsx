@@ -34,21 +34,23 @@ class DraftContainer extends React.Component {
         store.editor.document = editorState.getCurrentContent().getPlainText("")
       })
     }
+    store.editor.failureCallback.push(() => {
+      this.setState({ editorState: EditorState.createEmpty() })
+    })
   }
   componentDidMount() {
     this.domEditor.focus()
-    if ((store.editor.userFailed === true)) {
-      this.setState({ editorState: EditorState.createEmpty() })
-    }
   }
   render() {
     return (
-      <div id="content" className="container">
+      <div id="content" className="container is-dark timer with-title">
+        <h1 className={"title " + (store.clock.wordTimer < 6 ? " timer-running" : "")}>{store.clock.wordTimer}</h1>
         <span className={store.editor.userFailed ? "error" : ""}>{`${
           store.editor.wordCount
         }/${store.editor.wordLimit}`}</span>
         <div className="editor">
           <Editor
+            readOnly={store.editor.userFailed}
             editorState={this.state.editorState}
             onChange={this.onChange}
             ref={this.setDomEditorRef}

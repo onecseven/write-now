@@ -1,20 +1,21 @@
 import store from "./../store"
+import * as axios from "axios"
 
 export let editorStore = {
   /**@func retry resets the state */
   retry: () => {
-  store.addToHistory("retry")
-  store.editor.userConfDisplay = ""
-  store.editor.editorDisplay = "none"
-  store.editor.document = ""
-  store.editor.editing = false
-  store.editor.title = "Title"
-  store.editor.wordLimit = 1000 
-  store.editor.wordCount = 0
-  store.editor.userFailed = false
-  store.editor.userSuccess =  false
-  store.clock.hasStarted = false
-  store.clock.wordTimer = 15
+    store.addToHistory("retry")
+    store.editor.userConfDisplay = ""
+    store.editor.editorDisplay = "none"
+    store.editor.document = ""
+    store.editor.editing = false
+    store.editor.title = "Title"
+    store.editor.wordLimit = 1000
+    store.editor.wordCount = 0
+    store.editor.userFailed = false
+    store.editor.userSuccess = false
+    store.clock.hasStarted = false
+    store.clock.wordTimer = 15
   },
   /**@func success handles success, emits header, stops clock */
   success: () => {
@@ -25,7 +26,7 @@ export let editorStore = {
     return
   },
   /**@param {String} title */
-  changeTitle: title  => {
+  changeTitle: title => {
     store.addToHistory("changeTitle", title)
     store.editor.title = title
     return
@@ -65,25 +66,28 @@ export let editorStore = {
   /**@param {String} doc */
   saveSuccess: doc => {
     store.addToHistory("saveSuccess", doc)
-
     axios
       .post("/calendar", {
         doc: doc,
         title: store.editor.title
       })
-      .then(res => store.header.emitHeader("saved!"))
+      .then(res => {
+        store.header.emitHeader("saved!")
+        store.editor.retry()
+      })
       .catch(err => store.header.emitHeader("problem saving", true))
   },
   /**@typedef {String} cssShow can be "" or "none" */
   userConfDisplay: /**@type {cssShow} */ "",
-  editorDisplay:  /** @type {cssShow} */  "none",
+  editorDisplay: /** @type {cssShow} */ "none",
   document: /** @type {String} */ "",
   editing: /** @type {Boolean} title editing visibility */ false,
-  title: /**@type {String} */"Title",
+  title: /**@type {String} */ "Title",
   wordLimit: /**@type {Number} only positive integers please */ 1000, //default
   wordCount: /**@type {Number} */ 0,
-  userFailed:/**@type {Boolean} */ false,
-  userSuccess: /**@type {Boolean} */ false
+  userFailed: /**@type {Boolean} */ false,
+  userSuccess: /**@type {Boolean} */ false,
+  failureCallback: /**@type {Function[]}*/ []
 }
 
 export let clock = {
@@ -105,7 +109,11 @@ export let clock = {
     store.clock.wordInterval = clearInterval(store.clock.wordInterval)
     if (!success) {
       store.editor.userFailed = true
-      store.header.emitHeader("clock stopped")
+      store.editor.failureCallback.forEach(callback => {
+        console.log(callback)
+        callback()
+      })
+      store.header.emitHeader("You lost!", true)
     }
   },
   addToWordTimer() {

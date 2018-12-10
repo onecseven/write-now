@@ -99,16 +99,17 @@ store.visUpdate = (component, bool) => {
 
 store.header = {
   message: /**@type {String|null} */ null,
-  error: /**@type {String|null} */ null,
+  error: /**@type {Boolean} */ false,
   /**@function emitHeader
    * @param {String} message
    * @param {Boolean?} err whether the message is an error
-   * @param {Number} time how long the header should stay up (2 seconds by defaults)
    */
-  emitHeader: (message, error = false, time = 2000) => {
-    store.addToHistory("emitHeader", [{ message, error, time }])
+  emitHeader: (message, error = false) => {
+    store.addToHistory("emitHeader", [{ message, error }])
     if (error) {
       store.header.error = true
+    } else if (!error) {
+      store.header.error = false
     }
     if (store.vis.header === "") {
       store.header.message = message
@@ -116,9 +117,13 @@ store.header = {
     }
     store.visUpdate("header", true)
     store.header.message = message
-    setTimeout(() => {
-      store.visUpdate("header", false)
-    }, time)
+    return
+  },
+  wipeHeader: () =>{
+    store.addToHistory("wipeHeader")
+    store.visUpdate("header", false)
+    store.header.message = null
+    store.header.error = null
   }
 }
 store = st(store)

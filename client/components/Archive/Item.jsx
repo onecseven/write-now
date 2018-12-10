@@ -30,7 +30,7 @@ class Item extends Component {
   render() {
     if (!this.props.document) return null
     return this.state.selfDestruct ? null : (
-      <div className={"container with-title"} key={this.props.index}>
+      <div className={"container is-dark with-title"} key={this.props.index}>
         <span className="title">{this.props.title}</span>
         <span>{this.props.date}</span>
         <button
