@@ -1,6 +1,5 @@
 const express = require("express")
 const session = require("express-session")
-const FileStore = require("session-file-store")(session)
 const bodyParser = require("body-parser")
 const uuid = require("uuid/v4")
 const app = express()
@@ -41,7 +40,6 @@ app.use(
       console.log("Inside the session middleware")
       return uuid() // use UUIDs for session IDs
     },
-    store: new FileStore({ secret: "keyboard cat" }),
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true
