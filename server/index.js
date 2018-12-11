@@ -52,7 +52,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.static(__dirname + "/../dist"))
 
-const port = 8080
+const port = process.env.PORT || 8080
 
 server.listen(port, () => {
   console.log("App is listening to port", port)
