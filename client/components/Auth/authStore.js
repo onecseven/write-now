@@ -25,6 +25,8 @@ let authStore = {
           store.visUpdate("editor", true)
           store.auth._id = _id
           store.auth.isLoggedIn = true
+          sessionStorage.setItem("_id", _id)
+          sessionStorage.setItem("isLoggedIn","true")
         }
       })
       .catch(err => {

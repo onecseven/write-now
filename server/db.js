@@ -85,7 +85,6 @@ const addUser = (email, password, cb) => {
  */
 const logIn = (email, password, cb) => {
   User.findOne({ name: email }, (err, User) => {
-    console.log("name?", email)
     if (err || !User) {
       cb(new Error("User Not Found"))
     } else {
@@ -151,7 +150,6 @@ const getUserById = (_id, cb) => {
   User.findById(_id, (err, user) => {
     if (err || !user) cb(new Error("error db"))
     else {
-      console.log(user)
       cb(null, user)
     }
   })

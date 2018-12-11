@@ -10,6 +10,12 @@ class App extends Component {
   constructor() {
     super()
     this.state = store
+    if (sessionStorage.getItem("isLoggedIn")) {
+      store.auth.isLoggedIn = true
+      store.visUpdate("auth", false)
+      store.header.emitHeader("Welcome Back!")
+      store.visUpdate("editor", true)
+    }
   }
   render() {
     return (

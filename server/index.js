@@ -17,9 +17,7 @@ const {
   deleteCalendarItem
 } = db
 
-passport.use(
-  new LocalStrategy({ usernameField: "email" }, logIn)
-)
+passport.use(new LocalStrategy({ usernameField: "email" }, logIn))
 
 passport.serializeUser((user, done) => {
   console.log(
@@ -43,7 +41,7 @@ app.use(
       console.log("Inside the session middleware")
       return uuid() // use UUIDs for session IDs
     },
-    store: new FileStore({secret: "keyboard cat"}),
+    store: new FileStore({ secret: "keyboard cat" }),
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true
@@ -74,9 +72,9 @@ app.get("/user", (req, res) => {
   })
 })
 
-app.post("/login", passport.authenticate('local'), (req, res) => {
-  res.send(200)
-  })
+app.post("/login", passport.authenticate("local"), (req, res) => {
+  res.send(JSON.stringify(req.user))
+})
 
 app.get("/calendar", (req, res) => {
   if (req.isAuthenticated()) {
@@ -98,7 +96,6 @@ app.post("/calendar", (req, res) => {
     (err, result) => {
       if (err || !result) console.error("error updating calendar", err)
       else {
-        console.log(result)
         console.log("Update succesful")
         res.send(200)
       }
