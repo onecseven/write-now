@@ -4,7 +4,7 @@
   "description": "an app that helps you write right now",
   "main": "./server/index.js",
   "scripts": {
-    "start-server": "node ./server/index.js ;",
+    "start": "node ./server/index.js ;",
     "start-webpack": "webpack-dev-server --hot",
     "build": "webpack --mode production --config webpack.config.prod.js",
     "dev": "webpack --mode development --config webpack.config.prod.js; nodemon ./server/index.js"
