@@ -75,7 +75,10 @@ export let editorStore = {
         store.header.emitHeader("saved!")
         store.editor.retry()
       })
-      .catch(err => store.header.emitHeader("problem saving", true))
+      .catch(err => {
+        store.addToHistory("problem saving", err)
+        store.header.emitHeader("problem saving", true)
+      })
   },
   /**@typedef {String} cssShow can be "" or "none" */
   userConfDisplay: /**@type {cssShow} */ "",

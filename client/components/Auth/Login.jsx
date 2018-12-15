@@ -6,10 +6,11 @@ import { view } from "react-easy-state"
 const Login = () => {
   let email, password
   return (
-    <form className={"form container is-dark with-title"}onSubmit={(e) => {
+    <div className={"form container is-dark  is-rounded"}>
+    <form onSubmit={(e) => {
       e.preventDefault()
     }}>
-      <legend className={"title"}>Login</legend>
+      <legend >Login</legend>
       <label for="email">Email</label>
       <input
         type="email"
@@ -48,6 +49,7 @@ const Login = () => {
         Register
       </button>
     </form>
+    </div>
   )
 }
 

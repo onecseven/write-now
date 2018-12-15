@@ -53,6 +53,30 @@ store.clock = clock
 store.editor = editorStore
 store.auth = authStore
 
+/**
+ * a better way to have done this would have been to represent visibility like this
+ * 
+ *  visibilityObject = {
+ *   name: String
+ *   value: ("" || "none")
+ *   set visibility(val) => {
+ *   if (val){
+ *      this.value("")
+ *    } else {
+ *      this.value ("none")    
+ *    }  
+ *  }
+ *  get visibility() => {
+ *    if (this,value) {
+ *     return true
+ *     } else if (this.value === "none") {
+ *      return false
+ *      }
+ * }
+ * }
+ * 
+ */
+
 store.vis = {
   /**
    * @typedef {String} cssShow "" is visible, "none" not
@@ -60,7 +84,8 @@ store.vis = {
   header: /**@type {cssShow} */ "",
   auth: /**@type {cssShow} */  "",
   editor: /**@type {cssShow} */   "none",
-  archive: /**@type {cssShow} */  "none"
+  archive: /**@type {cssShow} */  "none",
+  about: /**@type {cssShow} */  ""
 }
 
 /**@function visUpdate
@@ -69,9 +94,15 @@ store.vis = {
  * @returns 
   */
 store.visUpdate = (component, bool) => {
-
+  store.addToHistory("visUpdate", [component, bool])
+  if (store.vis.about === ""){
+    store.vis.about = "none" //i just realized how confusing this is lmao
+  }
   let prop = /**@type {cssShow}  */ bool ? "" : "none"
   switch (component) {
+    case "about":
+      store.vis.header = prop
+      break
     case "header":
       store.vis.header = prop
       if (!bool) {

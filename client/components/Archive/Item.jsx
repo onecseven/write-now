@@ -36,9 +36,8 @@ class Item extends Component {
         <button
           className="btn"
           onClick={() => {
-            store.archive.data[this.props.index].view = !store.archive.data[
-              this.props.index
-            ].view
+            store.archive.data[this.props.index].view =
+            !store.archive.data[this.props.index].view
           }}
         >
           Show

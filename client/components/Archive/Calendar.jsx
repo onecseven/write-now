@@ -7,9 +7,7 @@ class Month extends Component {
     super(props)
   }
   componentDidMount() {
-    if (store.archive.data.length < 1){
       store.archive.populate()
-    }
   }
 
   render() {
@@ -19,12 +17,15 @@ class Month extends Component {
           display: store.vis.archive
         }}
       >
-          {store.archive.data.map((doc, index) => {
+          {store.archive.data.length > 0 ? 
+          store.archive.data.map((doc, index) => {
             const {date, document, title} = doc
             return (
               <Item date={date} document={document} title={title} index={index} /> 
             )
-          })}
+          }) : 
+          <div className={"container is-dark"}><p>You don't seem to have any SAVE FILES.</p></div>
+          }
       </div>
     )
   }

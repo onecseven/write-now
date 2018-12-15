@@ -3,7 +3,7 @@ import * as axios from "axios"
 let archiveStore = {
   /**
    * @function delete deletes a document from the current user's archive
-   * @param {Number} index index of the document to be deleted
+   * @param {Number} index index of the document to be deleted (from archive.data)
    */
   delete: index => {
     store.addToHistory("archive delete", index)
@@ -21,12 +21,19 @@ let archiveStore = {
   },
   /**@function populate populates the archive data store
    */
+  /**
+   * @typedef {Object} userDoc
+   * @property {String} date
+   * @property {String} title
+   * @property {String} document
+   */
   populate: () => {
     if (!store.auth.isLoggedIn) return
     store.addToHistory("archive populate")
     axios
       .get("/calendar")
       .then(({ data }) => {
+        //data: userDoc[]
         store.addToHistory("archive populated", data)
         data.reverse().forEach(item => {
           item.view = false
@@ -35,13 +42,13 @@ let archiveStore = {
       })
       .catch(err => {
         store.addToHistory("archive not populated", err)
-        store.header.emitHeader("Error recovering your archive.")
       })
   },
   /**
    * @type {Array} of document objects for the current user
    */
-  data: []
+  data: [],
+  init: false
 }
 
 export default archiveStore

@@ -7,14 +7,13 @@ import  store from "./../store"
 const Register = () => {
   let email, password
   return (
+    <div className={"form container is-dark is-rounded"}>
     <form
-    className={"form container is-dark with-title"}
 
      onSubmit={(e) => {
       e.preventDefault()
     }}>
       <legend
-          className={"title"}
 
       >Register</legend>
       <label>Email</label>
@@ -48,6 +47,7 @@ const Register = () => {
         Register
       </button>
     </form>
+    </div>
   )
 }
 

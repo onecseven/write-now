@@ -1,23 +1,24 @@
 body {
   background-color: black;
+  margin-right: 2%;
+  margin-left: 2%;
 }
 
 .App > * {
   color: white;
-
 }
 
 .timer {
   /* width: 250px; */
   /* height: 100px; */
   /* text-align: center; */
-  padding-top:15px;
+  padding-top: 15px;
   border: solid 2px;
   padding: 15px;
   border-radius: 10px;
 }
 
-.timer-running{
+.timer-running {
   color: red !important;
 }
 
@@ -26,8 +27,8 @@ body {
   border-radius: 5px;
 }
 
- .editor {
-   height: 800px;
+.editor {
+  height: 800px;
 }
 
 /* button {
@@ -44,7 +45,7 @@ body {
   color: #0366d6;
 } */
 
-.navbar{
+.navbar {
   text-align: left;
   list-style-type: none;
   margin: 0;
@@ -58,7 +59,7 @@ body {
   margin: 0px 10px 10px 0px;
 }
 
-  /* 
+/* 
   .header {
     display: block;
     list-style-type: disc;
@@ -72,22 +73,21 @@ body {
   } */
 
 .upper {
-  margin-right:2%;
+  margin-right: 2%;
   display: inline-block;
 }
 
 .upper > * {
-
-  margin-right:2%;
+  margin-right: 2%;
   display: inline-block;
 }
 
-.unbig{
+.unbig {
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 10px;
 }
 
-.error{
+.error {
   background-color: red;
 }
 
@@ -98,6 +98,6 @@ body {
   display: inline-block;
 }
 
-.auth > * {
-  display: inline-block;
+.compact {
+  float: left;
 }
