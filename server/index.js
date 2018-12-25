@@ -3,6 +3,7 @@ const session = require("express-session")
 const bodyParser = require("body-parser")
 const uuid = require("uuid/v4")
 const app = express()
+var morgan = require('morgan')
 const server = require("http").createServer(app)
 const db = require("./db.js")
 const passport = require("passport")
@@ -31,6 +32,8 @@ passport.deserializeUser((id, done) => {
     done(null, user)
   })
 })
+
+app.use(morgan('dev'))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -83,7 +86,6 @@ app.get("/calendar", (req, res) => {
 })
 
 app.post("/calendar", (req, res) => {
-  if (!req.isAuthenticated()) return res.sendStatus(403)
   let { doc, title } = req.body
   calendarUpdate(
     {
@@ -114,5 +116,3 @@ app.post("/delete", (req, res) => {
     }
   })
 })
-
-exports.app = app

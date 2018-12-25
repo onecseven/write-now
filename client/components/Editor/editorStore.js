@@ -2,22 +2,22 @@ import store from "./../store"
 import * as axios from "axios"
 
 export let editorStore = {
-  /**@func retry resets the state */
+  /**@func retry cleans up for a new sessions except it remembers wordLimit */
   retry: () => {
     store.addToHistory("retry")
+    store.editor.clear()
     store.editor.userConfDisplay = ""
     store.editor.editorDisplay = "none"
     store.editor.document = ""
     store.editor.editing = false
     store.editor.title = "Title"
-    store.editor.wordLimit = 1000
     store.editor.wordCount = 0
     store.editor.userFailed = false
     store.editor.userSuccess = false
     store.clock.hasStarted = false
     store.clock.wordTimer = 15
   },
-  /**@func success handles success, emits header, stops clock, etc cleanup */
+  /**@func success handles success, emits header, stops clock, etc */
   success: () => {
     store.addToHistory("user success", null)
     store.editor.userSuccess = true
@@ -90,7 +90,7 @@ export let editorStore = {
   wordCount: /**@type {Number} */ 0,
   userFailed: /**@type {Boolean} */ false,
   userSuccess: /**@type {Boolean} */ false,
-  failureCallback: /**@type {Function[]}*/ []
+  clear: /**@type {Function}*/ null
 }
 
 export let clock = {
@@ -112,10 +112,7 @@ export let clock = {
     store.clock.wordInterval = clearInterval(store.clock.wordInterval)
     if (!success) {
       store.editor.userFailed = true
-      store.editor.failureCallback.forEach(callback => {
-        console.log(callback)
-        callback()
-      })
+      store.editor.clear()
       store.header.emitHeader("You lost!", true)
     }
   },
