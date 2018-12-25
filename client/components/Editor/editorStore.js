@@ -17,7 +17,7 @@ export let editorStore = {
     store.clock.hasStarted = false
     store.clock.wordTimer = 15
   },
-  /**@func success handles success, emits header, stops clock */
+  /**@func success handles success, emits header, stops clock, etc cleanup */
   success: () => {
     store.addToHistory("user success", null)
     store.editor.userSuccess = true
@@ -49,13 +49,13 @@ export let editorStore = {
     }
     return
   },
-  /**@param {{words: Number}} */
+  /** @param \{{{Number}}\} {{words}} {{word limit}}{{}} */
   setEditorConf: ({ words }) => {
     store.addToHistory("setUserConf", { words })
     store.editor.wordLimit = words
     store.editor._toggleView()
   },
-  /**@func _toggleView internal vis updated for userConf component */
+  /**@func _toggleView switches userConf component on and off */
   _toggleView: () => {
     store.addToHistory("_toggleView", store.editor.userConfDisplay)
     store.editor.userConfDisplay =

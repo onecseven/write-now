@@ -13,10 +13,10 @@ const UserConf = () => {
       <legend>Set a minimum word count</legend>
       <h2 style={{color: "red"}}>YOU WILL NOT BE ABLE TO SAVE BEFORE YOU HIT THAT NUMBER</h2>
       <input
-        id="wordCount"
+        id="wordLimit"
         type="number"
         className={"input is-success"}
-        placeholder="1000"
+        placeholder={store.editor.wordLimit}
         value={words}
         style={{display:"inline-block"}}
         onChange={e => {
@@ -28,7 +28,7 @@ const UserConf = () => {
         style={{display:"inline-block"}}
         onClick={event => {
           event.preventDefault()
-          words = words || store.editor.wordCount || 1000
+          words = words || store.editor.wordLimit
           store.editor.setEditorConf({
             words
           })

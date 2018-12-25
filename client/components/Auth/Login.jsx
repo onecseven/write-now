@@ -6,12 +6,15 @@ import { view } from "react-easy-state"
 const Login = () => {
   let email, password
   return (
-    <div className={"form container is-dark  is-rounded"}>
-    <form onSubmit={(e) => {
+    <div className={"form container is-dark is-rounded"}>
+    <form
+    className="spaced" 
+    onSubmit={(e) => {
       e.preventDefault()
     }}>
       <legend >Login</legend>
-      <label for="email">Email</label>
+      <label>Email</label>
+      <br/>
       <input
         type="email"
         id="email"
@@ -23,6 +26,7 @@ const Login = () => {
       />
       <br/>
       <label for="password">Password</label>
+      <br/>
       <input
         type="password"
         id="password"
@@ -32,8 +36,9 @@ const Login = () => {
           password = e.target.value
         }}
       />
+      <br/>
       <button
-      className={"btn"}
+      className={"btn is-primary"}
         onClick={e => {
           e.preventDefault()
           store.auth.login(email, password)
