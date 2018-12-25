@@ -1,4 +1,0 @@
-module.exports = {
-  mongo_user: 'guillermo',
-  mongo_pw: 'supers3t'
-}
