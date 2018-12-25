@@ -66,7 +66,7 @@ store.auth = authStore
  *      this.value ("none")    
  *    }  
  *  }
- *  get visibility() => {
+ *  get visibility () => {
  *    if (this,value) {
  *     return true
  *     } else if (this.value === "none") {

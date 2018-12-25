@@ -81,11 +81,14 @@ app.get("/calendar", (req, res) => {
   if (req.isAuthenticated()) {
     res.send(JSON.stringify(req.user.calendar))
   } else {
-    res.sendStatus(404)
+    res.sendStatus(403)
   }
 })
 
 app.post("/calendar", (req, res) => {
+  if (!req.user) {
+    res.send(403)
+  }
   let { doc, title } = req.body
   calendarUpdate(
     {
