@@ -25,7 +25,7 @@ const Login = () => {
         }}
       />
       <br/>
-      <label for="password">Password</label>
+      <label>Password</label>
       <br/>
       <input
         type="password"
